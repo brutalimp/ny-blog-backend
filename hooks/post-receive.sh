@@ -14,7 +14,7 @@ if [ ! -d "$TARGET" ]; then
 fi
 
 echo "post-receive: git check out..."
-git --git-dir=$GIT_DIR  --work-tree=$TARGET checkout $BRANCH -f
+git --git-dir=$GIT_DIR  --work-tree=$TARGET checkout -f
 
 echo "yarn add" 
 && yarn add \
