@@ -1,0 +1,23 @@
+{
+  "name": "my-blog-backend",
+  "version": "1.0.0",
+  "description": "backend of my simple blog",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "blog",
+    "backend"
+  ],
+  "author": "Zhang, Shuyin",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.18.2",
+    "express": "^4.16.3",
+    "jsonwebtoken": "^8.2.1",
+    "mongodb": "^3.0.7",
+    "mongoose": "^5.0.15"
+  }
+}
