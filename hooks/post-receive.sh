@@ -10,10 +10,8 @@ cd $TARGET
 echo "post-receive: git check out..."
 git --git-dir=$GIT_DIR  --work-tree=$TARGET checkout $BRANCH -f
 
-echo "install pm2" \
-&& npm install pm2 -g \
-&& echo "npm install" \
-&& npm install \
+echo "yarn add" 
+&& yarn add \
 && echo "post-receive: server start" \
 && (pm2 delete $APP_NAME || true ) \
 && pm2 start app.js --name $APP_NAME \
