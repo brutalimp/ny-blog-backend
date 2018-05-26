@@ -16,8 +16,8 @@ fi
 echo "post-receive: git check out..."
 git --git-dir=$GIT_DIR  --work-tree=$TARGET checkout -f
 
-echo "yarn add" 
-&& yarn add \
+echo "yarn add all deps" 
+&& yarn install \
 && echo "post-receive: server start" \
 && (pm2 delete $APP_NAME || true ) \
 && pm2 start app.js --name $APP_NAME \
