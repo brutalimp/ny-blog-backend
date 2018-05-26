@@ -1,6 +1,6 @@
 #!/bin/bash
 TARGET="/home/www/ny-blog-backend"
-GIT_DIR="/home/gitrepo/ng-blog-backend.git"
+GIT_DIR="/home/gitrepo/ny-blog-backend.git"
 APP_NAME="ny-blog-backend"
 BRANCH="master"
 
