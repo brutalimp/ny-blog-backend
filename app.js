@@ -8,14 +8,13 @@ var port = process.env.port || 3000;
 var db = require('./db/mongodb');
 
 app.use(AccessControl);
+app.use(Authorization);
 
 var AuthController = require('./api/auth/AuthController');
 app.use('/api/auth', AuthController);
 
 var PublicController = require('./api/public/PublicController');
 app.use('/api/public', PublicController);
-
-app.use(Authorization);
 
 var UserController = require('./api/user/UserController');
 app.use('/api/users', UserController);

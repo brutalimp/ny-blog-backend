@@ -5,10 +5,13 @@ var User = require('../api/user/User')
 function Authorization(req, res, next) {
     var token = req.headers['authorization'];
     if (!token) {
-        return res.status(401).send({ auth: false, message: 'No token provided.' })
+        // return res.status(401).send({ auth: false, message: 'No token provided.' })
+        next();
     } else {
         jwt.verify(token, config.secret, function (err, decoded) {
-            if (err) return res.status(500).send({ auth: false, message: 'Failed to authenticate token.' });
+            if (err)
+                // return res.status(500).send({ auth: false, message: 'Failed to authenticate token.' });
+                next();
             User.findById(decoded.id,
                 { password: 0 }, // projection
                 (err, user) => {
@@ -18,7 +21,7 @@ function Authorization(req, res, next) {
                     next();
                 });
         })
-    } ;
+    };
 }
 
 module.exports = Authorization;

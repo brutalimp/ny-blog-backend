@@ -29,18 +29,8 @@ router.post('/register', (req, res) => {
 })
 
 router.get('/me', (req, res) => {
-    var token = req.headers['authorization'];
-    if (!token) return res.status(401).send({ auth: false, message: 'No token provided.' });
-    jwt.verify(token, config.secret, function (err, decoded) {
-        if (err) return res.status(500).send({ auth: false, message: 'Failed to authenticate token.' });
-        User.findById(decoded.id,
-            { password: 0 }, // projection
-            (err, user) => {
-                if (err) return res.status(500).send("There was a problem finding the user.");
-                if (!user) return res.status(404).send("No user found.");
-                res.status(200).send(user);
-            });
-    });
+    if(!req.user) return res.status(401).send({ auth: false, message: 'No token provided.' });
+    return res.status(200).send(req.user);
 });
 
 router.post('/login', (req, res) => {

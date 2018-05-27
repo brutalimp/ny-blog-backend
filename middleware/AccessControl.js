@@ -7,11 +7,11 @@ function AccessControl(req, res, next) {
     res.setHeader('Access-Control-Allow-Credentials', true);
     // Pass to next layer of middleware
     if ('OPTIONS' === req.method) {
-       //respond with 200
-       res.status(200).send();
+        //respond with 200
+        res.status(200).send();
     } else {
-    next();
+        next();
+    }
 }
-} 
 
 module.exports = AccessControl;
