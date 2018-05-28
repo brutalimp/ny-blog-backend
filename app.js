@@ -1,10 +1,11 @@
 var express = require('express');
+var config = require('./config/server.config');
 var AccessControl = require('./middleware/AccessControl');
 var Authorization = require('./middleware/Authorization');
 var logger = require('./helper/logger');
 
 var app = express();
-var port = process.env.port || 3000;
+var port = process.env.port || config.port;
 var db = require('./db/mongodb');
 
 app.use(AccessControl);

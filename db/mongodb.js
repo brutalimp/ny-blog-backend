@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
-var logger = require('../helper/logger')
-mongoose.connect('mongodb://localhost:27017/myblog');
+var logger = require('../helper/logger');
+var config = require('../config/mongodb.config')
+mongoose.connect('mongodb://localhost:' + config.port + '/myblog');
 
 
 var db = mongoose.connection;
