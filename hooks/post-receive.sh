@@ -7,10 +7,7 @@ BRANCH="master"
 echo "post-receive: Triggered."
 if [ ! -d "$TARGET" ]; then
   echo "mkdir $TARGET"
-  if [ ! -d "/home/www" ]; then
-    echo "mkdir /home/www"
-  fi  
-  mkdir $TARGET
+  mkdir -p $TARGET
 fi
 cd $TARGET
 
