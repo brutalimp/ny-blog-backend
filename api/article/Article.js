@@ -3,9 +3,11 @@ var mongoose = require('mongoose');
 
 var ArticleSchema = mongoose.Schema({
     name: String,
+    owner: String,
+    filename: String,
     content: Buffer,
     public: Boolean,
-    owner: String,
+    type: String,
     timestamp: Number
 });
 

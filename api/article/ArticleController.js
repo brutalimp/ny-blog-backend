@@ -19,6 +19,7 @@ router.post('/', permit(role.admin, role.standard), (req, res) => {
         filename: req.body.filename,
         content: req.body.content,
         public: req.body.public,
+        type: req.body.type,
         timestamp: Date.now()
     }, (err, article) => {
         if (err) return res.status(500).send('There was a problem adding a article into the database.');
@@ -44,7 +45,7 @@ router.get('/:id', (req, res) => {
     Article.findById(req.params.id, (err, article) => {
         if (err) return res.status(500).send("There was a problem finding the article.");
         if (!article) return res.status(404).send("No article found.");
-        if (!article.public && (!req.user || req.user._id !== article.owner)) {
+        if (!article.public && (!req.user || req.user._id.toString() !== article.owner)) {
             return res.status(403).send("Forbidden.")
         }
         res.status(200).send(article);
