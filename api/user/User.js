@@ -4,7 +4,7 @@ var UserSchema = new mongoose.Schema({
     name: String,
     password: String,
     role: String,
-    timestamp: String
+    timestamp: number
 })
 
 mongoose.model('User', UserSchema);
