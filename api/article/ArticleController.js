@@ -5,6 +5,7 @@ var jwt = require('jsonwebtoken');
 var config = require('../../config/auth.config');
 var permit = require('../../middleware/Permission');
 var Article = require('./Article');
+var ViewHistory = require('../history/History');
 var User = require('../user/User');
 var role = require('../role');
 
@@ -29,7 +30,7 @@ router.post('/', permit(role.admin, role.standard), (req, res) => {
 
 router.get('/', (req, res) => {
     if (!req.user) {
-        Article.find({ public: true }, {content: 0},  (err, articles) => {
+        Article.find({ public: true }, { content: 0 }, (err, articles) => {
             if (err) return res.status(500).send('There was a problem finding the articles.');
             res.status(200).send(articles);
         })
@@ -46,8 +47,18 @@ router.get('/:id', (req, res) => {
         if (err) return res.status(500).send("There was a problem finding the article.");
         if (!article) return res.status(404).send("No article found.");
         if (!article.public && (!req.user || req.user._id.toString() !== article.owner)) {
-            return res.status(403).send("Forbidden.")
-        }
+            return res.status(403).send("Forbidden.");
+        };
+        var viewerID = 404;
+        if (req.user) {
+            viewerID = req.user._id;
+        };
+        ViewHistory.create({
+            articleID: article._id,
+            viewerID,
+            os: req.headers['user-agent'],
+            timestamp: Date.now()
+        });
         res.status(200).send(article);
     })
 })

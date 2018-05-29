@@ -30,6 +30,9 @@ app.use('/api/users', UserController);
 var ArticleController = require('./api/article/ArticleController');
 app.use('/api/article', ArticleController);
 
+var HistoryController = require('./api/history/HistoryController');
+app.use('/api/history', HistoryController);
+
 var server = app.listen(port, () => {
     logger.info('Express server listening on port ' + port);
 })
