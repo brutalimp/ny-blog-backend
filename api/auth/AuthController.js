@@ -30,7 +30,7 @@ router.post('/register', (req, res) => {
 })
 
 router.get('/me', (req, res) => {
-    if(!req.user) return res.status(401).send({ auth: false, message: 'No token provided.' });
+    if(!req.user) return res.status(401).send('Token is invalid.');
     return res.status(200).send(req.user);
 });
 

@@ -31,7 +31,7 @@ router.get('/', (req, res) => {
     if (!req.user) {
         Article.find({ public: true }, {content: 0},  (err, articles) => {
             if (err) return res.status(500).send('There was a problem finding the articles.');
-            return res.status(200).send(articles)
+            res.status(200).send(articles);
         })
     } else {
         Article.find({ owner: req.user._id }, { content: 0 }, (err, articles) => {
