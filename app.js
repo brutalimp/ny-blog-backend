@@ -1,4 +1,6 @@
 var express = require('express');
+var https = require('https');
+var fs = require('fs');
 var config = require('./config/server.config');
 var AccessControl = require('./middleware/AccessControl');
 var Authorization = require('./middleware/Authorization');
@@ -10,6 +12,11 @@ var db = require('./db/mongodb');
 
 app.use(AccessControl);
 app.use(Authorization);
+
+if (!fs.existsSync(config.static)) {
+    fs.mkdir(config.static);
+}
+app.use(express.static(config.static));
 
 var AuthController = require('./api/auth/AuthController');
 app.use('/api/auth', AuthController);
@@ -26,5 +33,13 @@ app.use('/api/article', ArticleController);
 var server = app.listen(port, () => {
     logger.info('Express server listening on port ' + port);
 })
+
+if (config.https) {
+    const options = {
+        cert: fs.readFileSync('../sslcert/fullchain.pem'),
+        key: fs.readFileSync('../sslcert/privkey.pem')
+    };
+    https.createServer(options, app).listen(config.httpsport);
+}
 
 module.exports = app;
