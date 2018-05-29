@@ -34,12 +34,4 @@ var server = app.listen(port, () => {
     logger.info('Express server listening on port ' + port);
 })
 
-if (config.https) {
-    const options = {
-        cert: fs.readFileSync('../sslcert/fullchain.pem'),
-        key: fs.readFileSync('../sslcert/privkey.pem')
-    };
-    https.createServer(options, app).listen(config.httpsport);
-}
-
 module.exports = app;
