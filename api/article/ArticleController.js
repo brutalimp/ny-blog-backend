@@ -67,8 +67,8 @@ router.delete('/:id', permit(role.admin, role.standard), (req, res) => {
     Article.findById(req.params.id, (err, article) => {
         if (err) return res.status(500).send("There was a problem finding the article.");
         if (!article) return res.status(404).send("Article is already deleted.");
-        if (article.owner !== req.user._id) return res.status.send('Forbidden.');
-        Article.deleteOne({ _id: id }, (err) => {
+        if (article.owner !== req.user._id.toString()) return res.status(401).send('Forbidden.');
+        Article.deleteOne({ _id: req.params.id }, (err) => {
             if (err) return res.status(500).send("There was a error deleting the article.");
             return res.status(200).send("succeed.");
         })
