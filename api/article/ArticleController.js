@@ -76,7 +76,7 @@ router.delete('/:id', permit(role.admin, role.standard), (req, res) => {
 });
 
 router.put('/:id', (req, res) => {
-    Article.findByIdAndUpdate(req.params.id, req.body, { new: true }, function (err, article) {
+    Article.findByIdAndUpdate(req.params.id, {name: req.body.name, content: req.body.content, public: req.body.public}, { new: true }, function (err, article) {
         if (err) return res.status(500).send("There was a problem updating the article.");
         res.status(200).send(article);
     });
