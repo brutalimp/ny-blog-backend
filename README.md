@@ -3,6 +3,7 @@
 # Prerequisite
 
 `yum install -y nodejs`
+
 `npm install -g pm2`
 
 # Run
