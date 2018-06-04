@@ -49,16 +49,20 @@ router.get('/:id', (req, res) => {
         if (!article.public && (!req.user || req.user._id.toString() !== article.owner)) {
             return res.status(403).send("Forbidden.");
         };
-        var viewerID = 404;
-        if (req.user) {
-            viewerID = req.user._id;
-        };
-        ViewHistory.create({
-            articleID: article._id,
-            viewerID,
-            os: req.headers['user-agent'],
-            timestamp: Date.now()
-        });
+        // create a history record just when anonymous or no author viewer visits
+        if (!req.user || req.user._id.toString() !== article.owner) {
+            // anonymous id is 404
+            var viewerID = 404;
+            if (req.user) {
+                viewerID = req.user._id;
+            };
+            ViewHistory.create({
+                articleID: article._id,
+                viewerID,
+                os: req.headers['user-agent'],
+                timestamp: Date.now()
+            });
+        }
         res.status(200).send(article);
     })
 })
@@ -76,7 +80,7 @@ router.delete('/:id', permit(role.admin, role.standard), (req, res) => {
 });
 
 router.put('/:id', (req, res) => {
-    Article.findByIdAndUpdate(req.params.id, {name: req.body.name, content: req.body.content, public: req.body.public}, { new: true }, function (err, article) {
+    Article.findByIdAndUpdate(req.params.id, { name: req.body.name, content: req.body.content, public: req.body.public }, { new: true }, function (err, article) {
         if (err) return res.status(500).send("There was a problem updating the article.");
         res.status(200).send(article);
     });
