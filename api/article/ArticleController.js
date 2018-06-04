@@ -72,14 +72,21 @@ router.delete('/:id', permit(role.admin, role.standard), (req, res) => {
         if (err) return res.status(500).send("There was a problem finding the article.");
         if (!article) return res.status(404).send("Article is already deleted.");
         if (article.owner !== req.user._id.toString()) return res.status(401).send('Forbidden.');
-        Article.deleteOne({ _id: req.params.id }, (err) => {
+        Article.deleteOne({ _id: req.params.id }, (err, article) => {
             if (err) return res.status(500).send("There was a error deleting the article.");
-            return res.status(200).send("succeed.");
+            return res.status(200).send(article);
         })
     })
 });
 
-router.put('/:id', (req, res) => {
+router.put('/permission/:id', (req, res) => {
+    Article.findByIdAndUpdate(req.params.id, { public: req.body.permission }, { new: true }, function (err, article) {
+        if (err) return res.status(500).send("There was a problem updating the permission.");
+        res.status(200).send(article);
+    });
+})
+
+router.put('/:id', permit(role.admin, role.standard), (req, res) => {
     Article.findByIdAndUpdate(req.params.id, { name: req.body.name, content: req.body.content, public: req.body.public }, { new: true }, function (err, article) {
         if (err) return res.status(500).send("There was a problem updating the article.");
         res.status(200).send(article);
